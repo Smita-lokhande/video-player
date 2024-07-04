@@ -1,0 +1,481 @@
+doctype html
+html(lang="en")
+  head
+    title Calendaree || Video Player
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1.0')
+    link(href='/static/css/videoplayer.css' rel='stylesheet' type='text/css')
+    link(href='/static/css/style.css' rel='stylesheet' type='text/css')
+    if (orgcolor==="graycolor")
+        link(href='/static/css/graycolor.css' rel='stylesheet' type='text/css')
+    else if (orgcolor === "pinkcolor") 
+        link(href='/static/css/pinkcolor.css' rel='stylesheet' type='text/css')
+    else if (orgcolor==="browncolor")
+        link(href='/static/css/browncolor.css' rel='stylesheet' type='text/css')
+    else if (orgcolor==="bluecolor")
+        link(href='/static/css/bluecolor.css' rel='stylesheet' type='text/css')
+    link(href='/static/image/calen2.jpg' rel='stylesheet' type='text/image')
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="images/png" sizes="32x32" href="/images/favicon-32x32.png">
+    <link rel="icon" type="images/png" sizes="16x16" href="/images/favicon-16x16.png">
+    <link rel="icon" type="images/png" sizes="192x192" href="/images/favicon-192x192.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    body
+        div.container
+            div.content
+                div.header
+                    div.logo
+                        //-a(href="https://www.calendaree.com/")
+                        table(align="center") 
+                            tr 
+                                td(width="50%" style="text-align:left")
+                                    img(src="/static/image/Calendaree-logo-Original.png")
+                                td(align="center" style="text-align:left; width=100%; vertical-align: middle;")
+                                    div(id="logupload"  style="width:400px; height:80%; !important; margin-left:-70px;") 
+                                    
+                                td
+                                    <b>#{username}</b><br>
+                                    <a href="/1/menu" class="loginlink">Main</a>&nbsp;&nbsp;
+                                    <a href="/1/login" class="loginlink">Logout</a>
+                                    br
+                                    button.metal.linear(onclick='sendmessage1()' class="wbutton") Support On <i class="fa fa-whatsapp" style="font-size:20px;">
+                        div.loader#loader
+                            table(align='center') 
+                                tr(align='center') 
+                                    td(align='center')
+                                        | Loding.....     
+                        div.loader#loader2
+                            table(align='center') 
+                                tr(align='center') 
+                                    td(align='center')
+                                        | Saving.....              
+                        div.loader#loader3
+                            table(align='center') 
+                                tr(align='center') 
+                                    td(align='center')
+                                        | Delete.....                                                            
+                        div#videoplayergetsubscription 
+                            table(align="center")    
+                                    tr 
+                                        if(admin==0 && started==0 &&  Player== 0 )
+                                            td 
+                                                button(onclick ="subscribe();") Get Subscription   
+                        div#orgnibtn
+                            table(align="center")
+                                tr 
+                                    td 
+                                        if(admin==1 && started==0 )
+                                            button(onclick="orginfo();" class="mainbutton") <img src="/static/image/updateorganization.jpeg"  style="width:70px; "/> <br><p> Organization Info <br></p> 
+                        div#mainmenu
+                            table(align="center")  
+                                tr 
+                                    td
+                                        table 
+                                            tr 
+                                                td
+                                                    if ((admin == 1 && started == 1 && substatus == 1 && (orgcolor === "browncolor" || orgcolor === "pinkcolor" || orgcolor === "bluecolor" || orgcolor === "graycolor")) || (admin == 0 && started == 0 && substatus == 1 && Player == 1 && (orgcolor === "browncolor" || orgcolor === "pinkcolor" || orgcolor === "bluecolor" || orgcolor == "graycolor")) )
+                                                        img(src="/static/image/playlist.png" onclick="videoplayerpage();" style="width:70px; ")
+                                                        br
+                                                        p(onclick="videoplayerpage();") Video Player  
+                                            
+                                                td 
+                                                    if (admin == 1 && started == 1 && substatus == 1 && (orgcolor === "browncolor" || orgcolor === "pinkcolor" || orgcolor === "bluecolor" || orgcolor === "graycolor"))
+                                                        img(src="/static/image/staffmanagement.png" onclick="managestaffinfo();" style="width:70px; ")
+                                                        br
+                                                        p(onclick="managestaffinfo();") Manage Staff
+                                            tr 
+                                                td 
+                                                    if (admin == 1 && started == 1 && substatus == 1 && (orgcolor === "browncolor" || orgcolor === "pinkcolor" || orgcolor === "bluecolor" || orgcolor === "graycolor"))
+                                                        img(src="/static/image/settings.jpeg"  onclick="settinginfo();" style="width:70px; ")
+                                                        br
+                                                        p(onclick="settinginfo();") Settings
+                                                    
+                                                td 
+                                                    if (admin == 1 && started == 1 && substatus == 1 && (orgcolor === "browncolor" || orgcolor === "pinkcolor" || orgcolor === "bluecolor" || orgcolor === "graycolor"))
+                                                        img(src="/static/image/updateorganization.jpeg" onclick="updateorginfo();"   style="width:70px; ") 
+                                                        br
+                                                        p(onclick="updateorginfo();" ) Update Organization <br> Info
+                                            tr    
+                                                td 
+                                                    if (admin == 1 && started == 1 && substatus == 1 && (orgcolor === "browncolor" || orgcolor === "pinkcolor" || orgcolor === "bluecolor" || orgcolor === "graycolor"))
+                                                        img(src="/static/image/Account status.jpeg"  onclick="acountstatusvideo();"   style="width:70px; ")
+                                                        br
+                                                        p(onclick="acountstatusvideo();" ) Account Status
+
+                                if (Player ===1 && substatus == 0) 
+                                    tr 
+                                        td 
+                                            h1 You have reached the end of your subscription for the Video Player Module
+                                    tr 
+                                        td 
+                                            h1 Contact Your Respective Organization
+                                if admin === 1 && substatus == 0 &&  started == 1
+                                    tr 
+                                        td 
+                                            h1 You have reached the end of your subscription for the  Video Player Module
+                                    tr
+                                        td 
+                                            button.metal.linear(onclick='sendmessage2()') Sales On <i class="fa fa-whatsapp" style="font-size:24px;">
+                        div.model12#org
+                            table(align="center")
+                                        tr  
+                                            td
+                                                h1 Organization Information 
+                                            //- td
+                                            //-     button(onclick="cancelorgdb();" style="background-color:#E74C3C; text-align: justify;") X 
+
+                                        tr
+                                            td
+                                                label.user() Organization Name
+                                                input(type='text' id='orgname' placeholder='Organization Name' maxlength='40' size='40' required)
+                                        tr
+                                            td
+                                                label.user() Address 
+                                                input(type='text' id='orgaddress' placeholder='Address' maxlength='40' size='40' required)        
+                                        tr
+                                            td
+                                                label.user() Address
+                                                input(type='text' id='orgaddress1' placeholder='Address' maxlength='40' size='40' required)        
+                                        tr
+                                            td
+                                                label.user() City
+                                                input(type='text' id='orgcity' placeholder='City' maxlength='40' size='40' required)
+                                        tr
+                                            td
+                                                label.user() State
+                                                input(type='text' id='orgstate' placeholder='State' maxlength='40' size='40' required)
+                                        tr
+                                            td
+                                                label.user() Email
+                                                input(type='email' id='orgemail' placeholder='Email' maxlength='40' size='40' required)
+                                        tr
+                                            td
+                                                label.user() Mobile
+                                                input(type='text' id='phoneno' placeholder='Mobile' maxlength='10' size='40' required)
+                            br
+                            table(align="center")
+                                        tr(align="center")
+                                            td 
+                                                button(onclick='saveorginfo();' width='95px') Save Organazation
+                                            td  
+                                                button(onclick="cancelorgdb();") X   
+                                                
+
+                        div.model12#updateorgnization
+                            table(class="tblbackcolor" align="center" width="50%") 
+                                tr 
+                                    td
+                                        table(width="30%" cellspacing="0" cellpadding="0" align ='center')
+                                            tr(align="center")  
+                                                td(align="center") 
+                                                    h1 Update Organization 
+                                                td  
+                                                    button(onclick="cancelupdateorginfo();") X
+                                        table(align="center" cellspacing="0" cellpadding="0")
+                                            tr
+                                                td
+                                                    label.user() Organization Name
+                                                    input(type='text' id='orgname1' placeholder='Organization Name' maxlength='40' size='40' required)
+                                            tr
+                                                td
+                                                    label.user() Address 
+                                                    input(type='text' id='uaddress' placeholder='Address' maxlength='40' size='40' required)        
+                                            tr
+                                                td
+                                                    label.user() Address 2
+                                                    input(type='text' id='uaddress2' placeholder='Address' maxlength='40' size='40' required)        
+                                            tr
+                                                td
+                                                    label.user() City
+                                                    input(type='text' id='ucity' placeholder='City' maxlength='40' size='40' required)
+                                            tr
+                                                td
+                                                    label.user() State
+                                                    input(type='text' id='ustate' placeholder='State' maxlength='40' size='40' required)
+                                            tr
+                                                td
+                                                    label.user() Email
+                                                    input(type='text' id='uemail' placeholder='Email' maxlength='40' size='40' required)
+                                            tr
+                                                td
+                                                    label.user() Mobile
+                                                    input(type='text' id='phoneno1' placeholder='Mobile' maxlength='10' size='10' required)
+                                        br
+                                        table(align="center")    
+                                            tr
+                                                td 
+                                                    button(onclick='updateorg()' width='95px') Save Organization  
+                                        table(align="center") 
+                                            tr.tblflex
+                                                td
+                                                    //- label.user( id="datelable" ) Color
+                                                    //- br
+                                                    select(type="text" id="csscolor" required style="width:150px;")   
+                                                        option(value="bluecolor") Select Color
+                                                        option(value="pinkcolor") Pink Color
+                                                        option(value="graycolor") Gray Color
+                                                        option(value="bluecolor") Blue Color
+                                                        option(value="browncolor") Brown Color
+                                                    td(align="center")
+                                                        button(onclick="orgcolorvideoplayer();" ) Add Color                                                   
+                        div.model12#acountstatusinfovideo
+                            table(class="tblbackcolor" align="center" width="50%")  
+                                tr 
+                                    td
+                                        table(align="center")
+                                            tr(align="center") 
+                                                td(align="center") 
+                                                    h1 Account Status
+                                                td 
+                                                    button(onclick="cancelaccountstatuspagevideo();") X
+                                        table(align="center")
+                                            tr(align="center")
+                                                td(align="center")
+                                                        br
+                                                        table(align="center")
+                                                            tr(align="center")
+                                                                td.tblclass 
+                                                                    label.user(for="") Account state
+                                                                    input(type='text' maxtlength='10' size='10' id='state' disabled='disabled')
+                                                                td.tblclass 
+                                                                    label.user(for="") Day's left
+                                                                    input(type='text' maxlength='10' size='10' id='valid' disabled='disabled')
+                                                        table 
+                                                            tr.tblclass
+                                                                td.tblclass 
+                                                                    label.user(for="" id='datelable') Start Date 
+                                                                    input(type='text' maxtlength='10' size='10' id='stdate' disabled='disabled') 
+                                                                td.tblclass 
+                                                                    label.user(for="" id='datelable') End Date 
+                                                                    input(type='text' maxtlength='10' size='10' id='eddate' disabled='disabled')
+                                                            tr.tblclass    
+                                                                td.tblclass 
+                                                                    label.user(for="" id='datelable') Quota
+                                                                    input(type='text' maxtlength='10' size='10' id='quota' disabled='disabled')     
+                                                                td.tblclass 
+                                                                    label.user(for="" id='datelable') Used Quota
+                                                                    input(type='text' maxtlength='10' size='10' id='usedquota' disabled='disabled')             
+                        div.model12#managestaff
+                                table(align="center" cellspacing="0" cellpadding="0"   style="vertical-align: top;"  ) 
+                                    tr(align="center") 
+                                        td(align="center" class="tblbackcolor")
+                                            table(align="center")
+                                                tr(align="center")    
+                                                    td(align="center" class="ms")
+                                                        h1 Manage Staff  
+                                                    td(class="aligreight")     
+                                                        button(onclick="closestaffbtn();"  ) X    
+                                            table.tblclass(align="center")
+                                                tr.tblclass(align="center") 
+                                                    td.tblclass(align="center")
+                                                        label.user( id="datelable" ) Mobile Number
+                                                        br
+                                                        input(type="text" id="staffmobilenumber" placeholder="mobile number" style="width:150px;" maxsize="15" hight="5")
+                                                    td 
+                                                        button(onclick="searchstaff();") Search 
+                                            br
+                                            table.tblclass           
+                                                tr.tblclass 
+                                                    td.tblclass
+                                                        label.user( id="datelable" ) Name
+                                                        br   
+                                                        input(type="text" id="staffname" placeholder="username" maxsize="10" hight="5" style="width:150px;") 
+                                                        //- table.tblclass             
+                                                        //-     tr.tblclass 
+                                                    td.tblclass
+                                                        label.user( id="datelable" ) Email
+                                                        br    
+                                                        input(type="text" id="staffmail" placeholder="email" maxsize="10" hight="5" style="width:150px;")                  
+                                                            //- table.tblclass(align="center") 
+                                                            //-     tr.tblclass(align="center") 
+                                                    td.tblclass
+                                                        label.user( id="datelable" ) Position
+                                                        br
+                                                        select( type="text"  id="addposition" placeholder='Position' required style="width:150px;")
+                                                            option(value="select") Select Position
+                                                            option(value="Player") Player 
+                                                    td        
+                                            br
+                                            table(align="center")     
+                                                tr(align="center") 
+                                                    td(align="center")
+                                                        button(onclick="assignstaff();" style="text-align: justify;") Save
+                                    
+                                    tr(align="center")
+                                        table(align="center")
+                                            tr(align="center")
+                                                td 
+                                                    h4 Staff Report
+                                            tr(align="center")
+                                                td(align="center")             
+                                                    div#staffreport
+                        div.model12#setting
+                            table(align="center")
+                                tr(align="center") 
+                                    td(align="center") 
+                                        h1 Settings
+                                    td 
+                                        button(onclick="closesetting();") X    
+                            table(align="center" class="tblbackcolor") 
+                                tr(align="center") 
+                                    td(align="center" ) 
+                                    
+                                        table(align="center" ) 
+                                            tr(align="center") 
+                                                td(align="center") 
+                                                    h3(style="color: black; font-size: 20px;") Manage Play List  
+                                        
+                                        table.tblclass(align="center") 
+                                                tr.tblclass(style="margin:0px; padding:0px;") 
+                                                    td.tblclass 
+                                                        input(type="text" id="newplaylist" placeholder="Play List" maxlength="50" size="5")
+                                                    td.tblclass 
+                                                        button(id="addmsbtn" onclick="playlistadd();"  class="settingadd" ) Add
+                                                tr.tblclass 
+                                                    td.tblclass 
+                                                        table 
+                                                            tr 
+                                                                td 
+                                                                    label.user( id="datelable") playlist
+                                                                    br
+                                                                    select(name="status" id="allstatus" size="10"  style="width:160px;")
+                                                    td.tblclass 
+                                                        table 
+                                                            tr 
+                                                                td.tblclass 
+                                                                    button(id="status1" onclick="addstatus1();") Add
+                                                            tr    
+                                                                td.tblclass 
+                                                                    button(id="delbtnc" onclick="deleteplaylist();") Delete 
+                                                    td.tblclass  
+                                                        table 
+                                                            tr 
+                                                                td
+                                                                    label.user( id="datelable") Selected Play List
+                                                                    br
+                                                                    select(name="showpl" id="showplaylistname" size="10" style="width:160px;")
+                                                        //- td.tblclass 
+                                                        //-     table
+                                                        //-         tr
+                                                        //-             td
+                                                        //-                 button( id="statussortup1" onclick="statusshortup();" ) <img src="/static/image/up-arrow.png" style="height:20px; width:15px;"/>  
+                                                        //-         tr 
+                                                        //-             td 
+                                                        //-                 button(onclick="statusshortdown();" id="statusshortdn1") <img src="/static/image/down-arrow.png" style="height:20px; width:15px;"/>  
+                        div.model12#showv
+                            table(align="center" class='showvi' cellspacing="0" cellpadding="0"   style="vertical-align: top;")
+                                //- tr(aligin="center")
+                                //-     td.tblclass(align="center" style="vertical-align: top;")     
+                                //-         button(onclick="closeshowvpage();"  class="closebgc") X
+                                tr(aligin="center")    
+                                    td(aligin='center' style="vertical-align: top;")
+                                        div(id="videoPlayerContainer" style='width: 100%; height: 100%;' )         
+                                    
+                        div.model12#videoplayermainpage
+                            table(width="100%" cellspacing="0" cellpadding="0"   style="vertical-align: top;")  
+                                tr(align="center")
+                                    td(style="vertical-align: top;")
+                                        table(cellspacing="0" cellpadding="0"   style="vertical-align: top;") 
+                                            tr
+                                                table(cellspacing="0" cellpadding="0"   style="vertical-align: top;") 
+                                                    tr 
+                                                        td(style="vertical-align: top;")
+                                                            select(id="showvideo"  required style="width: 230px; height: 33px;") 
+                                                        td(style="vertical-align: top;") 
+                                                        input(type="hidden" id="videoid" class="displaytaskid") 
+                                                        td(style="vertical-align: top;")
+                                                            button(onclick='showvideolist();') Show List
+                                                        td(style="vertical-align: top;")
+                                                        td(style="vertical-align: top;")
+                                                            if(admin==1 && started==1 )  
+                                                                input(type="file" id="uploadVideo")   
+                                                                button(onclick='videoupload();') video upload    
+                                                        td(style="vertical-align: top;")
+                                                            div(id="retrivtime" )  
+                                                        td(class="hidden1-box" style="vertical-align: top;") 
+                                                            input(id='videoid' type="hiddenbox"  class="displayvideoid")              
+                                                        td.tblclass(align="center" style="vertical-align: top;")     
+                                                                        button(onclick="closeplayvideopage();" ) X             
+                                            tr 
+                                                table(cellspacing="0" cellpadding="0"   style="vertical-align: top;") 
+                                                    tr
+                                                        td(style="vertical-align: top;")
+                                                            button(onclick='playallvideo();') playAllVideo
+                                            tr(align="center")
+                                                td
+                                                    div(id="retrivvideo") 
+                                            tr(align="center") 
+                                                table(align="center" width="100px")
+                                                    tr(align="center")   
+                                                        td(align="center")          
+                                                            //div(id="videoTable" style='width: 100%; height: 400px;') 
+                                                            div(id="videolist" style='width: 800px; height: 500px;')
+                                                        //- td(align='center')
+                                                        //-     div(id="videoPlayerContainer" style='width: 600px; height: 400px;' )    
+                                        //table(id="videoTable")            
+                            div.model12#updatevideoinfo1 
+                                table(align="center")
+                                    tr(align="center")
+                                        td(align="center") 
+                                            <dialog id="favdialogsetloop" class="digclass" style="width: 300px; height: 150px; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);" >
+                                                table(align="center") 
+                                                    tr(align="center") 
+                                                        td(class="fr1" style="vertical-align: top;") 
+                                                            button(onclick="closesettime();") X
+                                                    tr
+                                                        div#loopv1
+                                                            table.tblclass(align="center") 
+                                                                tr.tblclass(align="center")  
+                                                                    table(align="center") 
+                                                                        tr(align="center") 
+                                                                            td(align="center")
+                                                                                label.user( id="datelable") Set Loop Time
+                                                                                br 
+                                                                                input(type="text" id="settimeloop" placeholder="Number" )   
+                                                                                    //- tr(align="center")     
+                                                                                    //-     td(align="center")
+                                                                                    //-         label.user( id="datelable") Set Video Time
+                                                                                    //-         br
+                                                                                    //-         input( type="text"  id="setplaytime" placeholder="hh:mm:ss") 
+                                                                    table(align="center")     
+                                                                        tr(align="center")     
+                                                                            td(align="center")
+                                                                                button(onclick="updatevideoinformation();") Update       
+                                            </dialog> 
+                            
+                            div.model12#settimevid
+                                table(align="center") 
+                                        tr 
+                                            td
+                                                <dialog id="favdialogsettime" class="digclass" style="width: 400px; height: 200px;" >
+                                                    table(align="center") 
+                                                        tr    
+                                                            td(class="fr1" style="vertical-align: top;") 
+                                                            td.tblclass(align="center" style="vertical-align: top;")     
+                                                                button(onclick="closesettime1();") X
+                                                        tr
+                                                            div#timev
+                                                                table.tblclass(align="center") 
+                                                                    tr.tblclass(align="center")  
+                                                                        table(align="center") 
+                                                                            tr(align="center") 
+                                                                                td(align="center")
+                                                                                    label.user( id="datelable") video total time
+                                                                                    br 
+                                                                                    input(type="text" id="pvtime"  )   
+                                                                            tr(align="center")     
+                                                                                td(align="center")
+                                                                                    label.user( id="datelable") Set Video Time
+                                                                                    br
+                                                                                    input( type="text"  id="setplaytime" placeholder="hh:mm:ss") 
+                                                                            tr(align="center")     
+                                                                                td(align="center")
+                                                                                    button(onclick="playVideoOnTime();") play                                                                       
+                                                            div#dialogboxclosefile
+                                                <dialog>                     
+                            
+                            //- div.model12#videoadd1                                                                                         
+    block script  
+    script(src="/static/js/videoplayer.js")
+    script(type="text/javascript" src='/static/js/login.js') 
+    script(type="text/javascript" src="https://code.jquery.com/jquery-1.7.1.min.js")
